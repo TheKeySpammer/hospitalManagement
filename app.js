@@ -32,12 +32,13 @@ db.sequelize.authenticate()
 });
 
 // Initalizing all models
-// const Person = require('./models/Person'),
-//       Patient = require('./models/Patient'),
-//       Perscription = require('./models/Prescription');
+const Person = require('./models/Person'),
+      Patient = require('./models/Patient'),
+      Receipt = require('./models/Receipt');
 
-// db.sequelize.sync();
+db.sequelize.sync({force: true});
 
+require('./modules/seed')();
     
 // All Routing
 app.use('/', indexRouter);

@@ -17,14 +17,21 @@ const Patient = db.sequelize.define( "Patient", {
         type: db.Sequelize.STRING,
         allowNull: true
     },
-    // DoctorTreating: {
-    //     type: db.Sequelize.INTEGER.UNSIGNED,
-    //     references: {
-    //         model: Doctor,
-    //         key: 'id'
-    //     }
-    // }
+    ConsultantAssigned: {
+        type: db.Sequelize.STRING,
+        allowNull: false
+    },
+    Department: {
+        type: db.Sequelize.STRING,
+    },
+    DateTime: {
+        type: db.Sequelize.DATE,
+        defaultValue: db.Sequelize.NOW
+    },
+    Validity: {
+        type: db.Sequelize.INTEGER,
+        defaultValue: 7
+    }    
 }
 );
-
 module.exports = Patient;
