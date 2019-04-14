@@ -7,6 +7,8 @@ const express = require('express'),
       Department = require('../models/Department');
 
 router.get('/', (req, res) => {
+    // Find all the patients that came today.
+    
     res.render('opd/index');
 });
 
@@ -26,7 +28,7 @@ router.post('/', (req, res) => {
     let referredBy = req.body.referredBy;
     let consultant = parseInt(req.body.consultant, 10);
     let consultantName = "";
-    let department= ""
+    let department= "";
     Consultants.forEach(function (Consultant) { 
         if(consultant === Consultant.id) {
             consultantName = Consultant.fname + " " + Consultant.lname;
@@ -52,6 +54,7 @@ router.post('/', (req, res) => {
         }).then(patient => {
             console.log("New patient Created");
             console.log(patient);
+            res.redirect('/opd');
         }).catch(err => {
             res.send("An error occured");
             console.log(err);
@@ -60,14 +63,13 @@ router.post('/', (req, res) => {
         res.send("Sorry and error occured.");
         console.error(err);
     });
-    res.send("This is the post route where new form will be created");
 });
 
 function calculateAge(date) {
     let now = new Date();
     let diff = (now.getTime() -date.getTime()) / 1000;
     diff /= (60*60*24);
-    return Math.abs(Math.round(diff/365.25));
+    return Math.floor(Math.round(diff/365.25));
 }
 
 module.exports = router;

@@ -36,9 +36,13 @@ const Person = require('./models/Person'),
       Patient = require('./models/Patient'),
       Receipt = require('./models/Receipt');
 
-db.sequelize.sync({force: true});
+// Sync and seed databases with new Values
+// db.sequelize.sync({force: true}).then( () => {
+//   require('./modules/seed')(10);
+// }).catch(err=>{
+//   console.error(err);
+// });
 
-require('./modules/seed')();
     
 // All Routing
 app.use('/', indexRouter);
