@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+
+<!-- TODO: Improve the display -->
+<% if (patient.length > 0){ var patient = patient[0] %>
+<h1>Patient Details</h1>
+<h5>Patient ID: </h5>
+<p><%= patient.id %></p>
+<h5>Name: </h5>
+<p><%= patient.Fname + ' ' + patient.Mname + ' ' + patient.Lname %></p>
+<h5>Sex: </h5>
+<p><%= patient.Sex%></p>
+<h5>Age: </h5>
+<p><%= patient.Age%></p>
+<h5>Date of Birth: </h5>
+<p><%= patient.DateOfBirth%></p>
+<h5>Address: </h5>
+<p><%= patient.Address%></p>
+<h5>Contact Number: </h5>
+<p><%= patient.ContactNumber%></p>
+<h5>Referred By: </h5>
+<p><%= patient.ReferredBy%></p>
+<h5>Consultant Assigned: </h5>
+<p><%= patient.ConsultantAssigned%></p>
+<h5>Department: </h5>
+<p><%= patient.Department%></p>
+<h5>Date: </h5>
+<p><%= patient.DateTime %></p>
+<%}else{%>
+<h3>Wrong patient ID error</h3>
+<%}%>
+<a href="/opd" class="btn btn-primary">Back</a>
+<% include ../partials/footer %>

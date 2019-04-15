@@ -43,7 +43,9 @@ router.get('/search', (req, res) => {
         } else if (mname) {
             query = "SELECT * from listPatient where Fname=? and Mname=?";
             queryOption.replacements = [fname, mname];
-        } else {
+        } else if (queryType == "PatientId"){
+            res.redirect(`/opd/${queryText}`);
+        }else {
             query = "SELECT * from listPatient where Fname=?";
             queryOption.replacements = [fname];
         }
@@ -126,6 +128,28 @@ router.post('/', (req, res) => {
         res.send("Sorry and error occured.");
         console.error(err);
     });
+});
+
+router.get('/:id', (req, res) => {
+    db.sequelize.query('SELECT * from listPatient where id=?', 
+    {replacements: [req.params.id], type: db.Sequelize.QueryTypes.SELECT}).then(patient => {
+        res.render('opd/patient', {patient: patient});
+    }).catch(err => {
+        console.log(err);
+        res.send('Database error');
+    });
+});
+
+router.get('/:id/edit', (req, res) => {
+    res.send('This page will show edit form');
+});
+
+router.put('/:id', (req, res) => {
+    res.send('This page will update the databses');
+});
+
+router.delete('/:id', (req, res) => {
+    res.send('This page will Delete patient data with particular ID');
 });
 
 function calculateAge(date) {

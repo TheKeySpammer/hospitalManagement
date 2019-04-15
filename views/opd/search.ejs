@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         <% patients.forEach(function(patient) { %>
-        <tr>
+        <tr class="clickable-row" data-href='/opd/<%=patient.id%>'>
             <th scope="row"><%=patient.id%></th>
             <td><%=patient.Fname%></td>
             <td><%=patient.Lname%></td>
