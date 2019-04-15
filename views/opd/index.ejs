@@ -2,9 +2,73 @@
 <div class="jumbotron">
     <h1 class="display-4">OPD</h1>
     <hr class='my-4'>
-    <p class = "lead">This is the Outpatient Department. Here all the patients that came today will be displayed along with available doctors and more information</p>
+    <p class="lead">Outpatient Department.</p>
 </div>
-<a href="/opd/new" class="btn btn-primary">Register a patient</a>
-<a href="#" class="btn btn-success">Show registered patients</a>
+<a href="/opd/new" class="btn btn-success">Register a patient</a>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchForm"><i
+        class="fas fa-search"></i> Search</button>
+<div class="modal fade" id="searchForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search Patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/opd/search" method="GET">
+                    <div class="form-group">
+                        <label for="searchType">Search Type:</label>
+                        <select class="form-control" name="searchType" id="searchType">
+                            <option value="id">Patient ID</option>
+                            <option value="Name">Name</option>
+                            <option value="Department">Department</option>
+                            <option value="ConsultantAssigned">Consultant</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Search: </label>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="query" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Continue" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>OPD Patients on <%=(new Date()).toString().substring(0, 15)%></h2>
 
+<%if (patients.length > 0) {%>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">PatientID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Consultant</th>
+            <th scope="col">Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% patients.forEach(function(patient) { %>
+        <tr>
+            <th scope="row"><%=patient.id%></th>
+            <td><%=patient.Fname%></td>
+            <td><%=patient.Lname%></td>
+            <td><%=patient.ConsultantAssigned%></td>
+            <td><%=patient.Department%></td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+<%}else{%>
+<h3>No Patients today</h3>
+<%}%>
 <% include ../partials/footer %>

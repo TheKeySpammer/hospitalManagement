@@ -3,11 +3,12 @@ const Patient = require('../models/Patient');
 const Consultant = require('../models/Consultant');
 const Receipt = require('../models/Receipt');
 const fs = require('fs');
+const dtow = require('number-to-words')
 
 module.exports = function (noOfPatients) {
     console.log("Seeding Database");
     let conFee = 500.00;
-    let conFeeWord = "Five Hundred";
+    let conFeeWord = dtow.toWords(conFee);
     for (i = 0; i < noOfPatients; i++) {
         let name = randName();
         let fname = name.split(" ")[0];

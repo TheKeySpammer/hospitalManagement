@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<h1>Search Result</h1>
+<% if(patients.length == 0){ %>
+<h3>No matching result found</h3>
+<% }else{ %>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">PatientID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Consultant</th>
+            <th scope="col">Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% patients.forEach(function(patient) { %>
+        <tr>
+            <th scope="row"><%=patient.id%></th>
+            <td><%=patient.Fname%></td>
+            <td><%=patient.Lname%></td>
+            <td><%=patient.ConsultantAssigned%></td>
+            <td><%=patient.Department%></td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+<% } %>
+<a href="/opd" class="btn btn-primary">back</a>
+<% include ../partials/footer %>

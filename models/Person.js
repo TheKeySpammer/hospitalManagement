@@ -27,7 +27,7 @@ const Person = db.sequelize.define("Person", {
         allowNull: false
     },
     DateOfBirth: {
-        type: db.Sequelize.DATE,
+        type: db.Sequelize.DATEONLY,
         allowNull: false
     },
     Address: {

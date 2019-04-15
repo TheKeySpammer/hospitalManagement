@@ -37,6 +37,7 @@ const Person = require('./models/Person'),
       Receipt = require('./models/Receipt');
 
 // Sync and seed databases with new Values
+
 // db.sequelize.sync({force: true}).then( () => {
 //   require('./modules/seed')(10);
 // }).catch(err=>{
