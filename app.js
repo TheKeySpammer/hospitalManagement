@@ -40,6 +40,7 @@ const Person = require('./models/Person'),
 
 // db.sequelize.sync({force: true}).then( () => {
 //   require('./modules/seed')(10);
+//   console.log("Database synchronized");
 // }).catch(err=>{
 //   console.error(err);
 // });

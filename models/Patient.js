@@ -8,6 +8,9 @@ const Patient = db.sequelize.define( "Patient", {
     },
     PersonId: {
         type: db.Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
         references: {
             model: Person,
             key: 'id'

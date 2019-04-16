@@ -9,6 +9,9 @@ const Receipt = db.sequelize.define( "Receipt", {
     },
     PatientId: {
         type: db.Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
         references: {
             model: Patient,
             key: 'id'

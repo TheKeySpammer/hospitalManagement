@@ -1,0 +1,22 @@
+<%include ../partials/header %>
+<h1>Patient Registration for <%=fullName%></h1>
+<form method="POST" action="/opd/new/<%=id%>/patient">
+    <div class="form-group">
+        <label for="inputReferredBy">Referred By: </label>
+        <input type="text" class="form-control" id="inputReferredBy" name="referredBy">
+    </div>
+
+    <div class="form-group">
+        <label for="inputConsultant">Consultant:</label>
+        <select class="form-control" name="consultant" id="inputConsultant">
+            <option value="">Choose...</option>
+            <% Consultants.forEach(function(Consultant){ %>
+            <option value="<%=Consultant.id%>"> <%=Consultant.fname%> <%=Consultant.lname%></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Continue" class="btn btn-primary">
+    </div>
+</form>
+<%include ../partials/footer %>

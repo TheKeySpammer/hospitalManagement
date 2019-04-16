@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+
+<h2>Create a Receipt for <%=fullName%></h2>
+
+<form method="POST" action="/opd/<%=patientId%>/receipt/">
+    <div class="form-group">
+        <label>Facility Availed: </label>
+        <input type="text" name="facility" value="Diagonostics" class="form-control"> 
+    </div>
+    <div class="form-group">
+        <label for="inputDepartment">Department:</label>
+        <select class="form-control" name="department" id="inputDepartment">
+            <option value="">Choose...</option>
+            <% department.alliedServices.forEach(function(service){ %>
+            <option value="<%=service%>"> <%=service%></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Amount: </label>
+        <input type="number" name="amount" min="0.01" step="0.01" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary">
+    </div>
+</form>
+
+<% include ../partials/footer %>
