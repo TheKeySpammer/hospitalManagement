@@ -1,46 +1,152 @@
-<% include ../partials/header %>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/styles_patient.css' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <title>Sceptile</title>
+    <style>
+    
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: rgb(255, 255, 255);
+        padding-left: 150px
+      }
+      
+      .flex-container > div {
+        border: 2px solid rgb(158, 152, 152);
+        border-radius: 25px;
+        width: 400px;
+        margin: 10px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 20px;
+      }
+      .sidenav {
+          width: 130px;
+          position: fixed;
+          z-index: 1;
+          top: 20px;
+          left: 10px;
+          background: #eee;
+          overflow-x: hidden;
+          padding: 8px 0;
+      }
+
+      .sidenav a {
+          padding: 6px 8px 6px 16px;;
+          text-decoration: none;
+          font-size: 25px;
+          color: rgb(0, 0, 0);
+          display: block;
+      }
+
+      .sidenav a:hover {
+          color: #064579;
+      }
+
+      .main {
+          margin-left: 0px; /* Same width as the sidebar + left position in px */
+          font-size: 28px; /* Increased text to enable scrolling */
+          padding: 10px 10px;
+      }
+
+      @media screen and (max-height: 400px) {
+          .sidenav {padding-top: 15px;}
+          .sidenav a {font-size: 18px;}
+      }
+    </style>
+  </head>
+
 
 <!-- TODO: Improve the display -->
-<h1>Patient Details</h1>
-<h5>Patient ID: </h5>
-<p><%= patient.id %></p>
-<h5>Name: </h5>
-<p><%= person.Fname + ' ' + person.Mname + ' ' + person.Lname %></p>
-<h5>Sex: </h5>
-<p><%= person.Sex%></p>
-<h5>Age: </h5>
-<p><%= person.Age%></p>
-<h5>Date of Birth: </h5>
-<p><%= person.DateOfBirth%></p>
-<h5>Address: </h5>
-<p><%= person.Address%></p>
-<h5>Contact Number: </h5>
-<p><%= person.ContactNumber%></p>
-<h5>Referred By: </h5>
-<p><%= patient.ReferredBy%></p>
-<h5>Consultant Assigned: </h5>
-<p><%= patient.ConsultantAssigned%></p>
-<h5>Department: </h5>
-<p><%= patient.Department%></p>
-<h5>Date: </h5>
-<p><%= patient.DateTime %></p>
-<h5>Total Amount</h5>
-<p>Rs. <%=totalAmount%></p>
-<h5>Consultancy Fee paid: </h5>
-<p>Rs. <%=consultancyFee%></p>
-<h5>Other Services Fee paid: </h5>
-<p>Rs. <%=otherFee%></p>
-<h5>Validity</h5>
+
+ <div >
+        <h1>Patient Details : </h1>
+    </div>
+    <div class="sidenav">
+      <a href="/opd" class="btn btn-primary">Back</a>
+      
+	  <a href="/opd/<%=patient.id%>/edit" class="btn btn-success">Edit</a>
+	  <a href="/opd/<%=patient.id%>/receipt" class="btn btn-primary">Create Receipt</a>
+	  <form action="/opd/<%=patient.id%>?_method=DELETE" method="POST">
+	<input type="submit" name ="del" value="Delete" class="btn btn-danger">
+	<input type="submit" name ="delAll" value="Delete All Records" class="btn btn-danger">
+</form>
+    </div>
+<div class="flex-container">
+<div>
+<h6>Patient ID: </h6>
+<p ><%= patient.id %></p>
+</div>
+<div>
+<h6>Name: </h6>
+<p ><%= person.Fname + ' ' + person.Mname + ' ' + person.Lname %></p>
+</div>
+<div>
+<h6>Sex: </h6>
+<p ><%= person.Sex%></p>
+</div>
+<div>
+<h6>Age: </h6>
+<p ><%= person.Age%></p>
+</div>
+<div>
+<h6>Date of Birth: </h6>
+<p ><%= person.DateOfBirth%></p>
+</div>
+<div>
+<h6>Address: </h6>
+<p ><%= person.Address%></p>
+</div>
+<div>
+<h6>Contact Number: </h6>
+<p ><%= person.ContactNumber%></p>
+</div>
+<div>
+<h6>Referred By: </h6>
+<p ><%= patient.ReferredBy%></p>
+</div>
+<div>
+<h6>Consultant Assigned: </h6>
+<p ><%= patient.ConsultantAssigned%></p>
+</div>
+<div>
+<h6>Department: </h6>
+<p ><%= patient.Department%></p>
+</div>
+<div>
+<h6>Date: </h6>
+<p ><%= patient.DateTime %></p>
+</div>
+<div>
+<h6>Total Amount</h6>
+<p >Rs. <%=totalAmount%></p>
+</div>
+<div>
+<h6>Consultancy Fee paid: </h6>
+<p >Rs. <%=consultancyFee%></p>
+</div>
+<div>
+<h6>Other Services Fee paid: </h6>
+<p >Rs. <%=otherFee%></p>
+</div>
+<div>
+<h6>Validity</h6>
 <% if (validity > 0){ %>
 <p><%=validity%> days</p>
 <%}else{%>
-<p>Expired!</p>
+<p>Expired! <a href="/opd/new/byId?pid=<%=patient.id%>" class="btn btn-success">Create New</a></p>
 <%}%>
-<a href="/opd" class="btn btn-primary">Back</a>
-<a href="/opd/<%=patient.id%>/edit" class="btn btn-success">Edit</a>
-<form action="/opd/<%=patient.id%>?_method=DELETE" method="POST">
-<input type="submit" name ="del" value="Delete" class="btn btn-danger">
-<input type="submit" name ="delAll" value="Delete All Records" class="btn btn-danger">
-</form>
-<a href="/opd/<%=patient.id%>/receipt" class="btn btn-primary">Create Receipt</a>
+</div>
+<br>
+
+
 <% include ../partials/footer %>

@@ -145,6 +145,7 @@ router.get('/new/byId', (req, res) => {
     let id = parseInt(req.query.pid);
     Patient.findByPk(id).then (patient => {
         // TODO: Case when id doesn't finds a patient
+        if (patient) {
         Person.findByPk(patient.PersonId).then(person => {
             let fname = person.Fname;
             let mname = person.Mname ? person.Mname : '';
@@ -153,7 +154,29 @@ router.get('/new/byId', (req, res) => {
             res.render('opd/newById', {fullName: fullName, id: person.id, Consultants: Consultants});
         }).catch(err => {
             console.error(err);
-        });
+        });b = require('../modules/database');
+        // const Person = require('./Person');
+        // const Consultant = db.sequelize.define('Consultant', {
+        //     id: {
+        //         type: db.Sequelize.INTEGER.UNSIGNED,
+        //         primaryKey: true,
+        //         autoIncrement: true
+        //     },
+        //     PersonId: {
+        //         type: db.Sequelize.INTEGER.UNSIGNED,
+        //         allowNull: false,
+        //         onDelete: 'cascade',
+        //         onUpdate: 'cascade',
+        //         references: {
+        //             model: Person,
+        //             key: 'id'
+        //         }
+        //     }, 
+        // });
+        
+        }else{
+            res.send("Patient Does not exist");
+        }
     }).catch(err => {
         console.error(err);
         res.render('error', {message: 'Database error', error: err});
@@ -207,6 +230,7 @@ router.post('/new/:id/patient', (req, res) => {
 router.get('/:id', (req, res) => {
     let id = parseInt(req.params.id);
     Patient.findByPk(id).then(patient => {
+        if (patient) {
         Person.findByPk(patient.PersonId).then(person => {
             person.Mname = person.Mname ? person.Mname : '';
             person.Lname = person.Lanme ? person.Lname : '';
@@ -235,6 +259,9 @@ router.get('/:id', (req, res) => {
         }).catch(err => {
             console.error(err);
         });
+    }else{
+        res.send("Patient Does not exist");
+    }
     }).catch(err => {
         console.error(err);
         res.render('error', {message: 'Database error', error: err});
@@ -326,7 +353,7 @@ router.delete('/:id', (req, res) => {
                 // Find Person associated and delete that person
                 Person.findByPk(patient.PersonId).then(person => {
                     person.destroy({force: true});
-                    res.redirect('/opd');
+                    res.redirect('/');
                 });
             }
         }).catch(err => {

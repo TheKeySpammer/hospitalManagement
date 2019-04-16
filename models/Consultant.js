@@ -1,4 +1,4 @@
-module.exports = [
+tempConsultants = [
     {id: 1, fname: "Bezalel", lname: "Simmel", department: "Physician"},
     {id: 2, fname: "Parto", lname: "Bamford", department: "Orthopedic"},
     {id: 3, fname: "Chirstian", lname: "Koblick", department: "ENT"},
@@ -12,3 +12,25 @@ module.exports = [
     {id: 11, fname: "Patricio", lname: "Bridgland", department: "Oncology"},
     {id: 12, fname: "Eberhardt", lname: "Terkki", department: "Physician"},
 ];
+
+// const db = require('../modules/database');
+// const Person = require('./Person');
+// const Consultant = db.sequelize.define('Consultant', {
+//     id: {
+//         type: db.Sequelize.INTEGER.UNSIGNED,
+//         primaryKey: true,
+//         autoIncrement: true
+//     },
+//     PersonId: {
+//         type: db.Sequelize.INTEGER.UNSIGNED,
+//         allowNull: false,
+//         onDelete: 'cascade',
+//         onUpdate: 'cascade',
+//         references: {
+//             model: Person,
+//             key: 'id'
+//         }
+//     }, 
+// });
+
+module.exports = tempConsultants;
