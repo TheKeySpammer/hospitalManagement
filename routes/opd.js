@@ -205,15 +205,38 @@ router.post('/new/:id/patient', (req, res) => {
 
 
 router.get('/:id', (req, res) => {
-    db.sequelize.query('SELECT * from listPatient where id=?', {
-        replacements: [req.params.id],
-        type: db.Sequelize.QueryTypes.SELECT
-    }).then(patient => {
-        res.render('opd/patient', {
-            patient: patient
+    let id = parseInt(req.params.id);
+    Patient.findByPk(id).then(patient => {
+        Person.findByPk(patient.PersonId).then(person => {
+            person.Mname = person.Mname ? person.Mname : '';
+            person.Lname = person.Lanme ? person.Lname : '';
+            Receipt.findAll({
+                where: {
+                    PatientId: patient.id
+                }
+            }).then(receipts => {
+                let totalAmount = 0;
+                let consultancyFee = 0;
+                let otherFee = 0;
+                let diff = dateDiff(patient.DateTime, new Date());
+                let validityRemaining = patient.Validity - diff;
+                receipts.forEach(receipt => {
+                    totalAmount += receipt.dataValues.Amount;
+                    if (receipt.dataValues.facilityAvailed === 'Consultancy') {
+                        consultancyFee += receipt.dataValues.Amount;
+                    }else {
+                        otherFee += receipt.dataValues.Amount;
+                    }
+                });
+                res.render('opd/patient', {patient: patient, person: person, totalAmount: totalAmount, consultancyFee: consultancyFee, otherFee: otherFee, validity: validityRemaining});
+            }).catch(err => {
+                console.error(err);
+            });
+        }).catch(err => {
+            console.error(err);
         });
     }).catch(err => {
-        console.log(err);
+        console.error(err);
         res.render('error', {message: 'Database error', error: err});
     });
 });
@@ -360,6 +383,11 @@ function calculateAge(date) {
     let diff = (now.getTime() - date.getTime()) / 1000;
     diff /= (60 * 60 * 24);
     return Math.floor(Math.round(diff / 365.25));
+}
+
+function dateDiff(before, now) {
+    var timeDiff = now.getTime() - before.getTime();
+	return Math.floor(timeDiff / (1000 * 3600 * 24));
 }
 
 module.exports = router;
