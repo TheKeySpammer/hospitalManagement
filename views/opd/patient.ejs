@@ -1,22 +1,21 @@
 <% include ../partials/header %>
 
 <!-- TODO: Improve the display -->
-<% if (patient.length > 0){ var patient = patient[0] %>
 <h1>Patient Details</h1>
 <h5>Patient ID: </h5>
 <p><%= patient.id %></p>
 <h5>Name: </h5>
-<p><%= patient.Fname + ' ' + patient.Mname + ' ' + patient.Lname %></p>
+<p><%= person.Fname + ' ' + person.Mname + ' ' + person.Lname %></p>
 <h5>Sex: </h5>
-<p><%= patient.Sex%></p>
+<p><%= person.Sex%></p>
 <h5>Age: </h5>
-<p><%= patient.Age%></p>
+<p><%= person.Age%></p>
 <h5>Date of Birth: </h5>
-<p><%= patient.DateOfBirth%></p>
+<p><%= person.DateOfBirth%></p>
 <h5>Address: </h5>
-<p><%= patient.Address%></p>
+<p><%= person.Address%></p>
 <h5>Contact Number: </h5>
-<p><%= patient.ContactNumber%></p>
+<p><%= person.ContactNumber%></p>
 <h5>Referred By: </h5>
 <p><%= patient.ReferredBy%></p>
 <h5>Consultant Assigned: </h5>
@@ -25,8 +24,17 @@
 <p><%= patient.Department%></p>
 <h5>Date: </h5>
 <p><%= patient.DateTime %></p>
+<h5>Total Amount</h5>
+<p>Rs. <%=totalAmount%></p>
+<h5>Consultancy Fee paid: </h5>
+<p>Rs. <%=consultancyFee%></p>
+<h5>Other Services Fee paid: </h5>
+<p>Rs. <%=otherFee%></p>
+<h5>Validity</h5>
+<% if (validity > 0){ %>
+<p><%=validity%> days</p>
 <%}else{%>
-<h3>Wrong patient ID error</h3>
+<p>Expired!</p>
 <%}%>
 <a href="/opd" class="btn btn-primary">Back</a>
 <a href="/opd/<%=patient.id%>/edit" class="btn btn-success">Edit</a>
