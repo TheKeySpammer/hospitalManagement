@@ -1,12 +1,18 @@
 const Person = require('../models/Person');
 const Patient = require('../models/Patient');
-const Consultant = require('../models/Consultant');
+const Consultant = require('../models/tempCons');
 const Receipt = require('../models/Receipt');
+const Employee = require('../models/Employee');
+const ConsModel = require('../models/Consultant');
 const fs = require('fs');
-const dtow = require('number-to-words')
+const dtow = require('number-to-words');
 
 module.exports = function (noOfPatients) {
     console.log("Seeding Database");
+    let Number_of_Consultant = 10;
+    let Salary = 50000.00;
+    let WorkHours = 8;
+    let ShiftStart = "09:00AM";
     let conFee = 500.00;
     let conFeeWord = dtow.toWords(conFee);
     for (i = 0; i < noOfPatients; i++) {

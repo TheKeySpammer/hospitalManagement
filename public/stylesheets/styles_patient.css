@@ -1,36 +1,56 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    background: #ffffff;
-    
-  }
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #ffffff;
   
-  a {
-    color: #00B7FF;
+}
+
+a {
+  color: rgb(151, 166, 172);
+  padding-bottom: 30px;
+}
+
+h1{
+  padding-left: 160px;
+  text-align: left;
+  padding-bottom: 30px;
+  font-family: 'Times New Roman', Times, serif;
+  text-decoration: underline;
+  text-underline-position: below
+}
+h6{
+  padding: 20px;
+  text-align: left;
+  text-transform: uppercase;
+  padding-bottom: 10px
+}
+p{
+  text-align: center; 
+  padding: 10px; 
+  line-height: 25px;
   
-  }
+}
+div{
+  display: inline-block;
+}
+
+form{
   
-  h1{
-    padding-left: 160px;
-    text-align: left;
-    padding-bottom: 30px;
-    font-family: 'Times New Roman', Times, serif;
-    text-decoration: underline;
-    text-underline-position: below
-  }
-  h6{
-    padding: 20px;
-    text-align: left;
-    text-transform: uppercase;
-    padding-bottom: 10px
-  }
-  p{
-    text-align: center; 
-    padding: 10px; 
-    line-height: 25px;
-    font-size: 20px;
-  }
-  div{
-    display: inline-block;
-  }
-  
+}
+
+#del{
+   text-align: center;
+   padding-left: 58px;
+   padding-right: 58px;
+   margin-bottom: 15px;
+}
+
+#del_all{
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#details{
+ margin-left: 80px;
+}

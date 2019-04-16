@@ -34,12 +34,14 @@ db.sequelize.authenticate()
 // Initalizing all models
 const Person = require('./models/Person'),
       Patient = require('./models/Patient'),
-      Receipt = require('./models/Receipt');
+      Receipt = require('./models/Receipt'),
+      Employee = require('./models/Employee'),
+      Consultant = require('./models/Consultant');
 
 // Sync and seed databases with new Values
 
 // db.sequelize.sync({force: true}).then( () => {
-//   require('./modules/seed')(10);
+//   require('./modules/seed')(20);
 //   console.log("Database synchronized");
 // }).catch(err=>{
 //   console.error(err);

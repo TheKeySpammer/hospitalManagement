@@ -3,7 +3,7 @@ const express = require('express'),
     db = require('../modules/database'),
     Person = require('../models/Person'),
     Patient = require('../models/Patient'),
-    Consultants = require("../models/Consultant"),
+    Consultants = require("../models/tempCons"),
     Department = require('../models/Department'),
     Receipt = require('../models/Receipt'),
     dtow = require('number-to-words');
@@ -23,7 +23,10 @@ router.get('/', (req, res) => {
             });
         }).catch(err => {
             console.error(err);
-            res.render('error', {message: 'Database error', error: err});
+            res.render('error', {
+                message: 'Database error',
+                error: err
+            });
         });
 });
 
@@ -31,7 +34,7 @@ router.get('/search', (req, res) => {
     console.log("This is the opd search funtion");
     let queryType = req.query.searchType;
     let queryText = req.query.query;
-    let validQueryType = ['id', 'Name', 'Department', 'ConsultantAssigned'];
+    let validQueryType = ['id', 'Name', 'Department', 'ConsultantAssigned', 'ShowAll'];
     if (validQueryType.indexOf(queryType) == -1) {
         console.error("Invalid Query Type");
         res.send('Invalid query Type error');
@@ -57,6 +60,8 @@ router.get('/search', (req, res) => {
     } else if (queryType === "id") {
         res.redirect(`/opd/${queryText}`);
         return;
+    } else if (queryType === "ShowAll") { 
+        query = "SELECT * from listPatient";
     } else {
         queryOption.replacements = [queryText];
     }
@@ -68,7 +73,10 @@ router.get('/search', (req, res) => {
             });
         }).catch(err => {
             console.error(err);
-            res.render('error', {message: 'Database error', error: err});
+            res.render('error', {
+                message: 'Database error',
+                error: err
+            });
         });
 });
 
@@ -136,50 +144,41 @@ router.post('/', (req, res) => {
             console.log(err);
         });
     }).catch(err => {
-        res.render('error', {message: 'Database error', error: err});
+        res.render('error', {
+            message: 'Database error',
+            error: err
+        });
         console.error(err);
     });
 });
 
 router.get('/new/byId', (req, res) => {
     let id = parseInt(req.query.pid);
-    Patient.findByPk(id).then (patient => {
+    Patient.findByPk(id).then(patient => {
         // TODO: Case when id doesn't finds a patient
         if (patient) {
-        Person.findByPk(patient.PersonId).then(person => {
-            let fname = person.Fname;
-            let mname = person.Mname ? person.Mname : '';
-            let lname = person.Lname ? person.Lname : '';
-            let fullName = fname + ' ' + mname + ' ' + lname;
-            res.render('opd/newById', {fullName: fullName, id: person.id, Consultants: Consultants});
-        }).catch(err => {
-            console.error(err);
-        });b = require('../modules/database');
-        // const Person = require('./Person');
-        // const Consultant = db.sequelize.define('Consultant', {
-        //     id: {
-        //         type: db.Sequelize.INTEGER.UNSIGNED,
-        //         primaryKey: true,
-        //         autoIncrement: true
-        //     },
-        //     PersonId: {
-        //         type: db.Sequelize.INTEGER.UNSIGNED,
-        //         allowNull: false,
-        //         onDelete: 'cascade',
-        //         onUpdate: 'cascade',
-        //         references: {
-        //             model: Person,
-        //             key: 'id'
-        //         }
-        //     }, 
-        // });
-        
-        }else{
+            Person.findByPk(patient.PersonId).then(person => {
+                let fname = person.Fname;
+                let mname = person.Mname ? person.Mname : '';
+                let lname = person.Lname ? person.Lname : '';
+                let fullName = fname + ' ' + mname + ' ' + lname;
+                res.render('opd/newById', {
+                    fullName: fullName,
+                    id: person.id,
+                    Consultants: Consultants
+                });
+            }).catch(err => {
+                console.error(err);
+            });
+        } else {
             res.send("Patient Does not exist");
         }
     }).catch(err => {
         console.error(err);
-        res.render('error', {message: 'Database error', error: err});
+        res.render('error', {
+            message: 'Database error',
+            error: err
+        });
     });
 
 });
@@ -200,11 +199,11 @@ router.post('/new/:id/patient', (req, res) => {
         }
     });
     Patient.create({
-            PersonId: id,
-            ReferredBy: referredBy,
-            ConsultantAssigned: consultantName,
-            Department: department,
-            DateTime: dateTime
+        PersonId: id,
+        ReferredBy: referredBy,
+        ConsultantAssigned: consultantName,
+        Department: department,
+        DateTime: dateTime
     }).then(patient => {
         Receipt.create({
             PatientId: patient.id,
@@ -222,7 +221,10 @@ router.post('/new/:id/patient', (req, res) => {
         });
     }).catch(err => {
         console.log(err);
-        res.render('error', {message: 'Database error', error: err});
+        res.render('error', {
+            message: 'Database error',
+            error: err
+        });
     });
 });
 
@@ -231,40 +233,53 @@ router.get('/:id', (req, res) => {
     let id = parseInt(req.params.id);
     Patient.findByPk(id).then(patient => {
         if (patient) {
-        Person.findByPk(patient.PersonId).then(person => {
-            person.Mname = person.Mname ? person.Mname : '';
-            person.Lname = person.Lanme ? person.Lname : '';
-            Receipt.findAll({
-                where: {
-                    PatientId: patient.id
-                }
-            }).then(receipts => {
-                let totalAmount = 0;
-                let consultancyFee = 0;
-                let otherFee = 0;
-                let diff = dateDiff(patient.DateTime, new Date());
-                let validityRemaining = patient.Validity - diff;
-                receipts.forEach(receipt => {
-                    totalAmount += receipt.dataValues.Amount;
-                    if (receipt.dataValues.facilityAvailed === 'Consultancy') {
-                        consultancyFee += receipt.dataValues.Amount;
-                    }else {
-                        otherFee += receipt.dataValues.Amount;
+            Person.findByPk(patient.PersonId).then(person => {
+                let fname = person.Fname;
+                let mname = person.Mname ? person.Mname : '';
+                let lname = person.Lname ? person.Lname : '';
+                let fullName = fname + ' ' + mname + ' ' + lname;
+                Receipt.findAll({
+                    where: {
+                        PatientId: patient.id
                     }
+                }).then(receipts => {
+                    let totalAmount = 0;
+                    let consultancyFee = 0;
+                    let otherFee = 0;
+                    let diff = dateDiff(patient.DateTime, new Date());
+                    let validityRemaining = patient.Validity - diff;
+                    receipts.forEach(receipt => {
+                        totalAmount += receipt.dataValues.Amount;
+                        if (receipt.dataValues.facilityAvailed === 'Consultancy') {
+                            consultancyFee += receipt.dataValues.Amount;
+                        } else {
+                            otherFee += receipt.dataValues.Amount;
+                        }
+                    });
+                    res.render('opd/patient', {
+                        patient: patient,
+                        person: person,
+                        totalAmount: totalAmount,
+                        consultancyFee: consultancyFee,
+                        otherFee: otherFee,
+                        validity: validityRemaining,
+                        fullName: fullName
+                    });
+                }).catch(err => {
+                    console.error(err);
                 });
-                res.render('opd/patient', {patient: patient, person: person, totalAmount: totalAmount, consultancyFee: consultancyFee, otherFee: otherFee, validity: validityRemaining});
             }).catch(err => {
                 console.error(err);
             });
-        }).catch(err => {
-            console.error(err);
-        });
-    }else{
-        res.send("Patient Does not exist");
-    }
+        } else {
+            res.send("Patient Does not exist");
+        }
     }).catch(err => {
         console.error(err);
-        res.render('error', {message: 'Database error', error: err});
+        res.render('error', {
+            message: 'Database error',
+            error: err
+        });
     });
 });
 
@@ -283,7 +298,10 @@ router.get('/:id/edit', (req, res) => {
             });
         }).catch(err => {
             console.error(err);
-            res.render('error', {message: 'Database error', error: err});
+            res.render('error', {
+                message: 'Database error',
+                error: err
+            });
         });
 });
 
@@ -334,7 +352,10 @@ router.put('/:id', (req, res) => {
             });
         }).catch(err => {
             console.error(err);
-            res.render('error', {message: 'Database error', error: err});
+            res.render('error', {
+                message: 'Database error',
+                error: err
+            });
         });
 });
 
@@ -348,36 +369,51 @@ router.delete('/:id', (req, res) => {
                 patient.destroy({
                     force: true
                 });
-                res.redirect('/opd');
-            }else {
+                res.redirect('/');
+            } else {
                 // Find Person associated and delete that person
                 Person.findByPk(patient.PersonId).then(person => {
-                    person.destroy({force: true});
+                    person.destroy({
+                        force: true
+                    });
                     res.redirect('/');
                 });
             }
         }).catch(err => {
             console.error(err);
-            res.render('error', {message: 'Database error', error: err});
+            res.render('error', {
+                message: 'Database error',
+                error: err
+            });
         });
 });
 
 router.get('/:id/receipt', (req, res) => {
     let id = parseInt(req.params.id);
-    Patient.findByPk(id).then (patient => {
-        // TODO: Case when id doesn't finds a patient
+    Patient.findByPk(id).then(patient => {
+        if (patient) {
         Person.findByPk(patient.PersonId).then(person => {
             let fname = person.Fname;
             let mname = person.Mname ? person.Mname : '';
             let lname = person.Lname ? person.Lname : '';
             let fullName = fname + ' ' + mname + ' ' + lname;
-            res.render('opd/receipt', {patientId: patient.id, fullName: fullName, department: Department});
+            res.render('opd/receipt', {
+                patientId: patient.id,
+                fullName: fullName,
+                department: Department
+            });
         }).catch(err => {
             console.error(err);
         });
+    }else{
+        res.send("Invalid ID");
+    }
     }).catch(err => {
         console.error(err);
-        res.render('error', {message: 'Database error', error: err});
+        res.render('error', {
+            message: 'Database error',
+            error: err
+        });
     });
 });
 
@@ -399,7 +435,7 @@ router.post('/:id/receipt', (req, res) => {
     }).then(receipt => {
         console.log("Receipt Created Successfully");
         console.log(receipt);
-        res.redirect("/opd");
+        res.redirect(`/opd/${id}`);
     }).catch(err => {
         console.error(err);
     });
@@ -414,7 +450,7 @@ function calculateAge(date) {
 
 function dateDiff(before, now) {
     var timeDiff = now.getTime() - before.getTime();
-	return Math.floor(timeDiff / (1000 * 3600 * 24));
+    return Math.floor(timeDiff / (1000 * 3600 * 24));
 }
 
 module.exports = router;
